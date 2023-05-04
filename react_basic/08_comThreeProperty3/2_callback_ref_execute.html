@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>string_ref_execute</title>
+  </head>
+  <body>
+    <!--准备一个容器-->
+    <div id="test"></div>
+    <!--引入核心库-->
+    <script type="text/javascript" src="../js/react.development.js"></script>
+    <!--引入react-dom,用于支持react操作dom-->
+    <script
+      type="text/javascript"
+      src="../js/react-dom.development.js"
+    ></script>
+    <!--应用babel,用于将jsx转为js-->
+    <script type="text/javascript" src="../js/babel.min.js"></script>
+
+    <script type="text/babel">
+      //创建组件
+      class Demo extends React.Component {
+        state ={isHot:false}
+
+        showinfo= ()=>{
+          const{input1} = this
+          alert(input1.value)
+        }
+
+        changeWeather= ()=>{
+          const {isHot} = this.state
+          this.setState({isHot:!isHot})
+        }
+
+        saveInput = (c)=>{
+          this.input1 = c
+        }
+
+        render(){
+          const {isHot} = this.state
+          return(
+            <div>
+              <h2>今天天气很{isHot ? '炎热':'凉爽'}</h2>
+              {/*<input ref={c =>{this.input1 = c}}type="text"/><br/>*/}
+              <input ref={this.saveInput} type="text"/>
+              <button onClick={this.showinfo}>点我提示数据</button><br/>
+              <button onClick={this.changeWeather}>点我切换天气</button>
+            </div>
+          )
+        }
+
+      }
+
+      ReactDOM.render(<Demo />, document.getElementById("test"));
+    </script>
+  </body>
+</html>

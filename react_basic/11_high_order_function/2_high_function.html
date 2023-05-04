@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>no curry function</title>
+  </head>
+  <body>
+    <!--准备一个容器-->
+    <div id="test"></div>
+    <!--引入核心库-->
+    <script type="text/javascript" src="../js/react.development.js"></script>
+    <!--引入react-dom,用于支持react操作dom-->
+    <script
+      type="text/javascript"
+      src="../js/react-dom.development.js"
+    ></script>
+    <!--应用babel,用于将jsx转为js-->
+    <script type="text/javascript" src="../js/babel.min.js"></script>
+
+    <script type="text/babel">
+      //创建组件
+      class Login extends React.Component {
+        state = {
+          username: "",
+          password: "",
+        };
+        //保存用户名到状态中
+        saveFromData = (dataType, event) => {
+            this.setState({ [dataType]: event.target.value});
+        };
+
+        handleSubmit = (event) => {
+          event.preventDefault(); //阻止表单提交
+          const { username, password } = this.state;
+          alert(`${username} ${password}`);
+        };
+
+        render() {
+          return (
+            <form action="http://www.gatguigu.com" onSubmit={this.handleSubmit}>
+              用户名：
+              <input
+                onChange={(event) =>
+                  this.saveFromData("username", event)
+                }
+                type="text"
+                name="username"
+              />
+              密码：
+              <input
+                onChange={(event) =>
+                  this.saveFromData("password", event)
+                }
+                type="password"
+                name="password"
+              />
+              <button>登录</button>
+            </form>
+          );
+        }
+      }
+
+      ReactDOM.render(<Login />, document.getElementById("test"));
+    </script>
+  </body>
+</html>

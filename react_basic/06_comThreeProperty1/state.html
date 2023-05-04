@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+    <link rel="shortcut icon" href="../favicon.ico" type="image/x-icon" />
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>State组件</title>
+</head>
+<body>
+    <!--准备一个容器-->
+    <div id="test"></div>
+    <!--引入核心库-->
+    <script type = "text/javascript" src="../js/react.development.js"></script>
+    <!--引入react-dom,用于支持react操作dom-->
+    <script type = "text/javascript" src="../js/react-dom.development.js"></script>
+    <!--应用babel,用于将jsx转为js-->
+    <script type = "text/javascript" src="../js/babel.min.js"></script>
+
+    <script type="text/babel">
+    
+        class Weather extends React.Component{
+            //构造器调用几次？---1次
+            constructor(props){
+                super(props)
+                //初始化状态
+                this.state = {isHot:false}
+                //解决changeWeather中this指向关系
+                this.changeWeather = this.changeWeather.bind(this)
+            }
+            render(){
+                return <h1 onClick={this.changeWeather}>今天天气很炎{this.state.isHot?'炎热':'凉爽'}</h1>
+            }
+            //点几次调用几次
+            changeWeather(){
+                //console.log('此处修改isHot的值')
+                //由于changeweather是作为onClick的回调，所以不是通过实例调用，是直接调用
+                //类中的方法默认开启了局部的严格模式，所以changeweather中的this为undefined
+
+                //获取原来isHot值
+                const isHot = this.state.isHot
+                //状态（stae）不可以直接更改，要借助内置api
+                //this.state.isHot = !isHot 错误
+                //更新是一种合并不是替换
+                this.setState({isHot:!isHot})
+
+            }
+        }
+        //2.渲染组件到页面
+        //render调用了1+n次 n是状态更新次数
+        ReactDOM.render(<Weather/>,document.getElementById('test'))
+
+        // const title = document.addEventListener('click',()=>{
+        //     console.log('标题被点击了');
+        // })
+
+        // const title = document.getElementById('title')
+        // title.onclick = ()=>{
+        //     console.log('标题被点击了');
+        // }
+
+        // function changeWeather(){
+        //     //console.log('此处修改isHot的值')
+        // }
+
+
+    </script>
+
+</body>
+</html>
